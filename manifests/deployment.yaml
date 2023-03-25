@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-devspace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spring-devspace
+  template:
+    metadata:
+      labels:
+        app: spring-devspace
+    spec:
+      containers:
+        - name: spring-devspace
+          image: spring-devspace
+          ports:
+            - containerPort: 8080
+            - containerPort: 5005
+          env:
+            - name: "JAVA_OPTS"
+              value: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
+            - name: "SPRING_PROFILES_ACTIVE"
+              value: "dev"
+          imagePullPolicy: IfNotPresent
